@@ -710,8 +710,13 @@
     <!-- CTA FINALE -->
     <section class="cta-section" id="registrati">
         <h2>Pronto a Cambiare la Tua Vita?</h2>
-        <p>Inizia oggi il tuo percorso verso la libertà finanziaria. Unisciti a centinaia di persone che hanno già scelto di investire nel loro futuro.</p>
-        <a href="#" class="btn-white">Crea il Tuo Account Gratis</a>
+        <p>Crea il tuo account per iniziare. Inserisci la tua email e una password per unirti a centinaia di persone che hanno già scelto di investire nel loro futuro.</p>
+        <form id="registration-form" style="max-width: 500px; margin: 2rem auto; display: flex; flex-direction: column; gap: 1rem;">
+            <input type="email" id="email" placeholder="La tua email migliore" required style="padding: 1rem; border-radius: 25px; border: none; font-size: 1rem;">
+            <input type="password" id="password" placeholder="Scegli una password sicura" required style="padding: 1rem; border-radius: 25px; border: none; font-size: 1rem;">
+            <button type="submit" class="btn-white" id="register-button">Crea il Tuo Account</button>
+        </form>
+        <p id="error-message" style="color: white; margin-top: 1rem; display: none;"></p>
     </section>
 
     <!-- FOOTER -->
@@ -756,10 +761,13 @@
         // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                const href = this.getAttribute('href');
+                if (href && href.length > 1) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                 }
             });
         });
@@ -787,6 +795,55 @@
                 nav.style.background = 'rgba(15, 23, 42, 0.98)';
             } else {
                 nav.style.background = 'rgba(15, 23, 42, 0.95)';
+            }
+        });
+
+        // Handle registration form submission
+        const registrationForm = document.getElementById('registration-form');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const registerButton = document.getElementById('register-button');
+        const errorMessage = document.getElementById('error-message');
+
+        registrationForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Disable button and show loading text
+            registerButton.disabled = true;
+            registerButton.textContent = 'Creazione in corso...';
+            errorMessage.style.display = 'none';
+            errorMessage.textContent = '';
+
+            const email = emailInput.value;
+            const password = passwordInput.value;
+
+            try {
+                // Use the functions from firebase-init.js
+                const userCredential = await signUp(email, password);
+                console.log('User signed up successfully:', userCredential.user.uid);
+
+                // Save additional user data to Firestore
+                await saveUserData(userCredential.user.uid, {
+                    email: email,
+                    createdAt: new Date(),
+                    subscription_status: 'pending_payment'
+                });
+
+                alert('Registrazione completata! Sarai reindirizzato al checkout.');
+
+                // Here you would trigger the Stripe Checkout flow.
+                // This typically involves calling a server-side function.
+                // For now, we'll just log to the console.
+                console.log('Redirecting to Stripe... (implement this part)');
+
+            } catch (error) {
+                console.error('Error during registration:', error);
+                errorMessage.textContent = `Errore: ${error.message}`;
+                errorMessage.style.display = 'block';
+            } finally {
+                // Re-enable the button
+                registerButton.disabled = false;
+                registerButton.textContent = 'Crea il Tuo Account';
             }
         });
     </script>

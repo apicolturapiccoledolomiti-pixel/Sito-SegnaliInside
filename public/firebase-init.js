@@ -1,12 +1,12 @@
 // Inizializza Firebase
-// TODO: Sostituisci questo con la configurazione del tuo progetto Firebase
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBeVcFSmovBntx5eEbkYt-HXAYua_aKTAo",
+  authDomain: "sitosegnaliquantiasystems.firebaseapp.com",
+  projectId: "sitosegnaliquantiasystems",
+  storageBucket: "sitosegnaliquantiasystems.appspot.com",
+  messagingSenderId: "152551706602",
+  appId: "1:152551706602:web:e50a05f1054d3582b36c93",
+  measurementId: "G-L6JPLTKB8L"
 };
 
 // Inizializza Firebase
