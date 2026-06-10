@@ -1,4 +1,5 @@
-// Inizializza Firebase
+
+// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBeVcFSmovBntx5eEbkYt-HXAYua_aKTAo",
   authDomain: "sitosegnaliquantiasystems.firebaseapp.com",
@@ -9,25 +10,34 @@ const firebaseConfig = {
   measurementId: "G-L6JPLTKB8L"
 };
 
-// Inizializza Firebase
-firebase.initializeApp(firebaseConfig);
+// Initialize Firebase (Correct V8 syntax)
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+} else {
+  firebase.app(); // if already initialized, use that one
+}
+
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// Funzioni di autenticazione (esempio)
+// --- FUNZIONI AGGIUNTE ---
+
+/**
+ * Signs up a new user with email and password.
+ * @param {string} email - The user's email.
+ * @param {string} password - The user's password.
+ * @returns {Promise<firebase.auth.UserCredential>}
+ */
 function signUp(email, password) {
-  return auth.createUserWithEmailAndPassword(email, password);
+    return auth.createUserWithEmailAndPassword(email, password);
 }
 
-function signIn(email, password) {
-  return auth.signInWithEmailAndPassword(email, password);
-}
-
-function signOut() {
-  return auth.signOut();
-}
-
-// Esempio di come potresti salvare i dati dell'utente in Firestore
-function saveUserData(userId, userData) {
-  return db.collection('users').doc(userId).set(userData, { merge: true });
+/**
+ * Saves additional user data to Firestore.
+ * @param {string} uid - The user's unique ID.
+ * @param {object} userData - The data to save.
+ * @returns {Promise<void>}
+ */
+function saveUserData(uid, userData) {
+    return db.collection('users').doc(uid).set(userData);
 }

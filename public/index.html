@@ -758,16 +758,16 @@
     <script src="firebase-init.js"></script>
 
     <script>
-        // Smooth scroll
+        // Smooth scroll (FIXED VERSION)
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const href = this.getAttribute('href');
-                if (href && href.length > 1) {
+                // Only process links that are longer than just "#"
+                if (href && href.length > 1 && document.querySelector(href)) {
                     e.preventDefault();
-                    const target = document.querySelector(href);
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
+                    document.querySelector(href).scrollIntoView({
+                        behavior: 'smooth'
+                    });
                 }
             });
         });
