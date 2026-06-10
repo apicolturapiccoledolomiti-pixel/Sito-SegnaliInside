@@ -1,0 +1,21 @@
+# Sistema operativo
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Log e temporanei
+*.log
+*.tmp
+*.temp
+
+# Dipendenze/build eventuali
+node_modules/
+dist/
+build/
+.cache/
